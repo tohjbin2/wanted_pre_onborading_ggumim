@@ -6,6 +6,7 @@ ${reset}
 * {
     box-sizing: border-box;
     font-family: 'Noto Sans KR', sans-serif;
+    font-size: 15px;
   }
 
   a {
