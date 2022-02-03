@@ -1,5 +1,11 @@
 import styled from 'styled-components';
 
+export const TagSection = styled.div``;
+
+export const ItemTag = styled.div``;
+
+export const IconTag = styled.div``;
+
 export const ModalSection = styled.div``;
 
 export const ImageSection = styled.div``;

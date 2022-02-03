@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import * as S from './Main.style';
-import { API_PRODUCTLIST } from '../config';
-import { MAIN_IMAGE_URL, SWIPER_IMAGES_URL } from '../utils/imagesURL';
-import MainImg from '../components/MainImg';
+import API_PRODUCTLIST from '../config';
+import SelectTag from '../components/SelectTag';
 
 function Main() {
+  const [mainImageId, setMainImageId] = useState('');
   const [mainImageUrl, setMainImageUrl] = useState('');
   const [productInfo, setProductInfo] = useState([]);
 
@@ -12,6 +12,7 @@ function Main() {
     fetch(API_PRODUCTLIST, {})
       .then(res => res.json())
       .then(data => {
+        setMainImageId(data.id);
         setMainImageUrl(data.imageUrl);
         setProductInfo(data.productList);
       });
@@ -35,17 +36,34 @@ function Main() {
       </S.Header>
       <S.ContentsSection>
         <S.MainImageSection>
-          {/* 
-          <S.MainImage         
-          // src={MAIN_IMAGE_URL} 
-          // id="star_image_id_89776" 
-          />
-          */}
-          {mainImageUrl.map(ImgData => {
-            return <MainImg img={ImgData} />;
+          <S.MainImage src={mainImageUrl} id={mainImageId} />
+
+          {productInfo.map(data => {
+            return (
+              <SelectTag
+                key={data.productId}
+                productId={data.productId}
+                pointX={data.pointX}
+                pointY={data.pointY}
+              />
+            );
           })}
-          {console.log('productInfo', productInfo)}
-          {console.log('setProductInfo', setProductInfo)}
+
+          {/* // MEMO: props를 이용하지 않은 경우 
+          {productInfo.map(data => {
+            return (
+              <S.ItemTag
+                key={data.productId}
+                data-furniture-idx={data.productId}
+                style={{ top: data.pointX * 1.6, left: data.pointY * 1.6 }}
+              >
+                <S.IconTag src="/images/tag-icon.png" />
+              </S.ItemTag>
+            );
+          })}
+          */}
+
+          {/*
           <S.ItemTag
             data-furniture-idx="219762"
             style={{ top: '777.6px', left: '327.267px' }}
@@ -100,6 +118,7 @@ function Main() {
           >
             <S.IconTag src="/images/tag-icon.png" />
           </S.ItemTag>
+          */}
         </S.MainImageSection>
         <S.Swiper>
           <S.SwiperImages />
