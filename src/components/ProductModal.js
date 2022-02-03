@@ -13,6 +13,7 @@ function ProductModal({ productList }) {
     discountRate,
     imageUrl,
   } = productList;
+
   return (
     <S.ModalSection>
       <S.ImageSection>
