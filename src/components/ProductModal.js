@@ -5,9 +5,9 @@ function ProductModal({ productList }) {
   const {
     productId,
     productName,
-    outside,
     pointX,
     pointY,
+    outside,
     priceOriginal,
     priceDiscount,
     discountRate,
@@ -15,9 +15,9 @@ function ProductModal({ productList }) {
   } = productList;
 
   return (
-    <S.ModalSection>
+    <S.ModalSection style={{ top: pointX * 1.6, left: pointY * 1.6 }}>
       <S.ImageSection>
-        <S.ThumbnailImage alt="상품이미지" src={imageUrl} />
+        <S.ThumbnailImage alt="태그 썸네일" src={imageUrl} />
       </S.ImageSection>
       <S.TextSection>
         <S.Title>{productName}</S.Title>

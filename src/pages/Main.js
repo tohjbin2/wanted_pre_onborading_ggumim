@@ -2,11 +2,17 @@ import React, { useEffect, useState } from 'react';
 import * as S from './Main.style';
 import API_PRODUCTLIST from '../config';
 import SelectTag from '../components/SelectTag';
+import ProductModal from '../components/ProductModal';
 
 function Main() {
   const [mainImageId, setMainImageId] = useState('');
   const [mainImageUrl, setMainImageUrl] = useState('');
   const [productInfo, setProductInfo] = useState([]);
+
+  const [toggleOn, setToggleOn] = useState(true);
+  const handleToggle = () => {
+    setToggleOn(!toggleOn);
+  };
 
   useEffect(() => {
     fetch(API_PRODUCTLIST, {})
@@ -17,6 +23,17 @@ function Main() {
         setProductInfo(data.productList);
       });
   }, []);
+
+  // const handleToggle = targetId => {
+  //   fetch(API_PRODUCTLIST, {})
+  //     .then(res => res.json())
+  //     .then(data => {
+  //       if (data.productId === targetId) {
+  //         setProductInfo(productInfo.map(data => data.productId !== targetId));
+  //         setToggleOn(!toggleOn);
+  //       }
+  //     });
+  // };
 
   return (
     <S.MainPage>
@@ -37,7 +54,7 @@ function Main() {
       <S.ContentsSection>
         <S.MainImageSection>
           <S.MainImage src={mainImageUrl} id={mainImageId} />
-
+          {/* MEMO: props로 따로 뺀 경우 (SelectTag.js)
           {productInfo.map(data => {
             return (
               <SelectTag
@@ -48,77 +65,32 @@ function Main() {
               />
             );
           })}
+          */}
 
-          {/* // MEMO: props를 이용하지 않은 경우 
+          {/* MEMO: props로 따로 빼지 않은 경우 */}
           {productInfo.map(data => {
             return (
               <S.ItemTag
                 key={data.productId}
-                data-furniture-idx={data.productId}
+                dataId={data.productId}
                 style={{ top: data.pointX * 1.6, left: data.pointY * 1.6 }}
+                onClick={handleToggle}
               >
                 <S.IconTag src="/images/tag-icon.png" />
               </S.ItemTag>
             );
           })}
-          */}
 
-          {/*
-          <S.ItemTag
-            data-furniture-idx="219762"
-            style={{ top: '777.6px', left: '327.267px' }}
-          >
-            <S.IconTag src="/images/tag-icon.png" />
-          </S.ItemTag>
-          <S.ItemTag
-            data-furniture-idx="83544"
-            style={{ top: '510.4px', left: '284.067px' }}
-          >
-            <S.IconTag src="/images/tag-icon.png" />
-          </S.ItemTag>
-          <S.ItemTag
-            data-furniture-idx="134225"
-            style={{ top: '460.8px', left: '154.467px' }}
-          >
-            <S.IconTag src="/images/tag-icon.png" />
-          </S.ItemTag>
-          <S.ItemTag
-            data-furniture-idx="219773"
-            style={{ top: '240px', left: '333.667px' }}
-          >
-            <S.IconTag src="/images/tag-icon.png" />
-          </S.ItemTag>
-          <S.ItemTag
-            data-furniture-idx="127757"
-            style={{ top: '328px', left: '720.867px' }}
-          >
-            <S.IconTag src="/images/tag-icon.png" />
-          </S.ItemTag>
-          <S.ItemTag
-            data-furniture-idx="219774"
-            style={{ top: '308.8px', left: '474.467px' }}
-          >
-            <S.IconTag src="/images/tag-icon.png" />
-          </S.ItemTag>
-          <S.ItemTag
-            data-furniture-idx="157412"
-            style={{ top: '558.4px', left: '156.067px' }}
-          >
-            <S.IconTag src="/images/tag-icon.png" />
-          </S.ItemTag>
-          <S.ItemTag
-            data-furniture-idx="21913"
-            style={{ top: '564.8px', left: '444.034px' }}
-          >
-            <S.IconTag src="/images/tag-icon.png" />
-          </S.ItemTag>
-          <S.ItemTag
-            data-furniture-idx="151860"
-            style={{ top: '275.2px', left: '199.267px' }}
-          >
-            <S.IconTag src="/images/tag-icon.png" />
-          </S.ItemTag>
-          */}
+          {!toggleOn
+            ? productInfo.map(productList => {
+                return (
+                  <ProductModal
+                    key={productList.productId}
+                    productList={productList}
+                  />
+                );
+              })
+            : null}
         </S.MainImageSection>
         <S.Swiper>
           <S.SwiperImages />
